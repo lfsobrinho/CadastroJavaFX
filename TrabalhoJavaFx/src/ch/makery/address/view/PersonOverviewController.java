@@ -31,6 +31,29 @@ public class PersonOverviewController {
     // Reference to the main application.
     private MainApp mainApp;
 
+    
+    private void showPersonDetails(Person person) {
+        if (person != null) {
+            // Preenche as labels com informações do objeto person.
+            firstNameLabel.setText(person.getFirstName());
+            lastNameLabel.setText(person.getLastName());
+            streetLabel.setText(person.getStreet());
+            postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
+            cityLabel.setText(person.getCity());
+
+            // TODO: Nós precisamos de uma maneira de converter o aniversário em um String! 
+            // birthdayLabel.setText(...);
+        } else {
+            // Person é null, remove todo o texto.
+            firstNameLabel.setText("");
+            lastNameLabel.setText("");
+            streetLabel.setText("");
+            postalCodeLabel.setText("");
+            cityLabel.setText("");
+            birthdayLabel.setText("");
+        }
+    }
+    
     /**
      * O construtor.
      * O construtor é chamado antes do método inicialize().
