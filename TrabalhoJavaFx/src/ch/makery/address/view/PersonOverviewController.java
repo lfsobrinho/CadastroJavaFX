@@ -28,6 +28,11 @@ public class PersonOverviewController {
     private Label cityLabel;
     @FXML
     private Label birthdayLabel;
+    @FXML
+    private void handleDeletePerson() {
+        int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+        personTable.getItems().remove(selectedIndex);
+    }
 
     // Reference to the main application.
     private MainApp mainApp;
