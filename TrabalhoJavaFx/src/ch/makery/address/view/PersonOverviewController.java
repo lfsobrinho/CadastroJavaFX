@@ -6,6 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
+import ch.makery.address.util.DateUtil;
 
 public class PersonOverviewController {
     @FXML
@@ -31,56 +32,68 @@ public class PersonOverviewController {
     // Reference to the main application.
     private MainApp mainApp;
 
-    
-    private void showPersonDetails(Person person) {
-        if (person != null) {
-            // Preenche as labels com informações do objeto person.
-            firstNameLabel.setText(person.getFirstName());
-            lastNameLabel.setText(person.getLastName());
-            streetLabel.setText(person.getStreet());
-            postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
-            cityLabel.setText(person.getCity());
-
-            // TODO: Nós precisamos de uma maneira de converter o aniversário em um String! 
-            // birthdayLabel.setText(...);
-        } else {
-            // Person é null, remove todo o texto.
-            firstNameLabel.setText("");
-            lastNameLabel.setText("");
-            streetLabel.setText("");
-            postalCodeLabel.setText("");
-            cityLabel.setText("");
-            birthdayLabel.setText("");
-        }
-    }
-    
     /**
-     * O construtor.
-     * O construtor é chamado antes do método inicialize().
+     * The constructor.
+     * The constructor is called before the initialize() method.
      */
     public PersonOverviewController() {
     }
 
     /**
-     * Inicializa a classe controller. Este método é chamado automaticamente
-     *  após o arquivo fxml ter sido carregado.
+     * Initializes the controller class. This method is automatically called
+     * after the fxml file has been loaded.
      */
     @FXML
     private void initialize() {
-        // Inicializa a tablea de pessoa com duas colunas.
-        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+    	// Initialize the person table with the two columns.
+        firstNameColumn.setCellValueFactory(
+        		cellData -> cellData.getValue().firstNameProperty());
+        lastNameColumn.setCellValueFactory(
+        		cellData -> cellData.getValue().lastNameProperty());
+        
+        // Clear person details.
+        showPersonDetails(null);
+
+        // Listen for selection changes and show the person details when changed.
+		personTable.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> showPersonDetails(newValue));
     }
 
     /**
-     * É chamado pela aplicação principal para dar uma referência de volta a si mesmo.
+     * Is called by the main application to give a reference back to itself.
      * 
      * @param mainApp
      */
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 
-        // Adiciona os dados da observable list na tabela
+        // Add observable list data to the table
         personTable.setItems(mainApp.getPersonData());
+    }
+    
+    /**
+     * Fills all text fields to show details about the person.
+     * If the specified person is null, all text fields are cleared.
+     * 
+     * @param person the person or null
+     */
+    private void showPersonDetails(Person person) {
+    	if (person != null) {
+    		// Fill the labels with info from the person object.
+    		firstNameLabel.setText(person.getFirstName());
+    		lastNameLabel.setText(person.getLastName());
+    		streetLabel.setText(person.getStreet());
+    		postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
+    		cityLabel.setText(person.getCity());
+    		birthdayLabel.setText(DateUtil.format(person.getBirthday()));
+    	} else {
+    		// Person is null, remove all the text.
+    		firstNameLabel.setText("");
+    		lastNameLabel.setText("");
+    		streetLabel.setText("");
+    		postalCodeLabel.setText("");
+    		cityLabel.setText("");
+    		birthdayLabel.setText("");
+    	}
     }
 }
