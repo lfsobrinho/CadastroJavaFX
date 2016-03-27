@@ -123,4 +123,4 @@ public class RootLayoutController {
     private void handleShowBirthdayStatistics() {
       mainApp.showBirthdayStatistics();
     }
-}
+}	
