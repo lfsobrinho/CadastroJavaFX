@@ -21,6 +21,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -224,13 +226,16 @@ public class MainApp extends Application {
             // Save the file path to the registry.
             setPersonFilePath(file);
 
-        } catch (Exception e) { // catches ANY exception
-            Dialogs.create()
-                    .title("Erro")
-                    .masthead("Não foi possível carregar dados do arquivo:\n" 
-                              + file.getPath()).showException(e);
-        }
+        }catch (Exception e) { // catches ANY exception
+        	Alert alert = new Alert(AlertType.ERROR);
+        	alert.setTitle("Error");
+        	alert.setHeaderText("Could not save data");
+        	alert.setContentText("Could not save data to file:\n" + file.getPath());
+        	
+        	alert.showAndWait();
     }
+        }
+    
 
     /**
      * Salva os dados da pessoa atual no arquivo especificado.
@@ -253,10 +258,13 @@ public class MainApp extends Application {
 
             // Saalva o caminho do arquivo no registro.
             setPersonFilePath(file);
-        } catch (Exception e) { // catches ANY exception
-            Dialogs.create().title("Erro")
-                    .masthead("Não foi possível salvar os dados do arquivo:\n" 
-                              + file.getPath()).showException(e);
+        	}catch (Exception e) { // catches ANY exception
+            	Alert alert = new Alert(AlertType.ERROR);
+            	alert.setTitle("Error");
+            	alert.setHeaderText("Could not save data");
+            	alert.setContentText("Could not save data to file:\n" + file.getPath());
+            	
+            	alert.showAndWait();
         }
     }
     
